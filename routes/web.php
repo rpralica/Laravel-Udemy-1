@@ -1,7 +1,7 @@
 <?php
 
-use illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Response;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,6 +26,7 @@ class Task
     ) {
     }
 }
+
 
 $tasks = [
     new Task(
@@ -66,20 +67,24 @@ $tasks = [
     ),
 ];
 
+
+
 Route::get('/tasks', function () use ($tasks) {
     return view('index', ['tasks' => $tasks]);
 })->name('tasks.index');
 
-Route::get('/{id}', function ($id) use ($tasks) {
+Route::get('/task/{id}', function ($id) use ($tasks) {
     $task = collect($tasks)->firstWhere('id', $id);
     if (!$task) {
         abort(Response::HTTP_NOT_FOUND);
     }
-    return view('task', ['' => $task]);
+    return view('task', ['task' => $task]);
 })->name('tasks.show');
 
 Route::get('/', function () {
     return redirect()->route("tasks.index");
 });
+
+
 
 //  07:53  lekcija 24
